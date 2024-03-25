@@ -1,0 +1,19 @@
+h1:frog-families-hmms Frog Families & HMMs
+h2:hidden-markov-models Hidden Markov Models
+h3:properties Properties
+h5:discreteness Discreteness:
+h5:markov-assumptions Markov Assumptions:
+h5:hidden-states Hidden States:
+h5:transition-emission-and-initial-probabilities Transition, Emission, and Initial Probabilities:
+h3:example-frogs Example: Frogs
+h3:visualizations Visualizations
+h2:algorithms Algorithms
+h3:likelihood Likelihood
+h3:the-forward-backward-algorithm The Forward-Backward Algorithm
+h4:forward Forward
+h4:backward Backward
+h4:collision Collision
+h2:conclusion Conclusion
+h2:video-resources Video Resources
+h2:references References
+

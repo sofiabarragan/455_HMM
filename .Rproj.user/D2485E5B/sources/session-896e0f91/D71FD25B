@@ -1,0 +1,26 @@
+{
+    "id": "D71FD25B",
+    "path": "~/Documents/GitHub/455_HMM/02-Hidden-Markov-Models.Rmd",
+    "project_path": "02-Hidden-Markov-Models.Rmd",
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1711331208211.0,
+    "source_on_save": false,
+    "relative_order": 10,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "365,85",
+        "scrollLine": "361"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1711327474,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1711331416016,
+    "read_only": false,
+    "read_only_alternatives": []
+}
