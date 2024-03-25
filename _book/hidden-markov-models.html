@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Hidden Markov Models | Hidden Markov Models &amp; their Applications to Statistical Genetics</title>
+  <meta name="description" content="Chapter 2 Hidden Markov Models | Hidden Markov Models &amp; their Applications to Statistical Genetics" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Hidden Markov Models | Hidden Markov Models &amp; their Applications to Statistical Genetics" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="freddy-barragan/455_Markov" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Hidden Markov Models | Hidden Markov Models &amp; their Applications to Statistical Genetics" />
+  
+  
+  
+
+<meta name="author" content="Freddy Barragan, Spring 2021, Macalester College" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mathematical-intuition.html"/>
+<link rel="next" href="application-to-statistical-genetics.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Hidden Markov Models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html"><i class="fa fa-check"></i><b>1</b> Mathematical Intuition</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#conditional-probability-bayes-rule"><i class="fa fa-check"></i><b>1.1</b> Conditional Probability &amp; Bayes Rule</a>
+<ul>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#basic-concepts"><i class="fa fa-check"></i>Basic Concepts</a></li>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#conditional-probabilities"><i class="fa fa-check"></i>Conditional Probabilities</a></li>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#bayes-rule-lotp"><i class="fa fa-check"></i>Bayes’ Rule &amp; LOTP</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#markov-chains"><i class="fa fa-check"></i><b>1.2</b> Markov Chains</a>
+<ul>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#intuition"><i class="fa fa-check"></i>Intuition</a></li>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#mathematical-definitions"><i class="fa fa-check"></i>Mathematical Definitions</a></li>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#visualizations"><i class="fa fa-check"></i>Visualizations</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#conclusion"><i class="fa fa-check"></i><b>1.3</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#references"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="mathematical-intuition.html"><a href="mathematical-intuition.html#video-resources"><i class="fa fa-check"></i>Video Resources</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="hidden-markov-models.html"><a href="hidden-markov-models.html"><i class="fa fa-check"></i><b>2</b> Hidden Markov Models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="hidden-markov-models.html"><a href="hidden-markov-models.html#motivation"><i class="fa fa-check"></i><b>2.1</b> Motivation</a></li>
+<li class="chapter" data-level="2.2" data-path="hidden-markov-models.html"><a href="hidden-markov-models.html#definitions"><i class="fa fa-check"></i><b>2.2</b> Definitions</a></li>
+<li class="chapter" data-level="2.3" data-path="hidden-markov-models.html"><a href="hidden-markov-models.html#the-forward-backward-algorithm"><i class="fa fa-check"></i><b>2.3</b> The Forward-Backward Algorithm</a></li>
+<li class="chapter" data-level="2.4" data-path="hidden-markov-models.html"><a href="hidden-markov-models.html#limitations"><i class="fa fa-check"></i><b>2.4</b> Limitations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="application-to-statistical-genetics.html"><a href="application-to-statistical-genetics.html"><i class="fa fa-check"></i><b>3</b> Application to Statistical Genetics</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="application-to-statistical-genetics.html"><a href="application-to-statistical-genetics.html#local-ancestry-inference"><i class="fa fa-check"></i><b>3.1</b> Local Ancestry Inference</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="application-to-statistical-genetics.html"><a href="application-to-statistical-genetics.html#motivation-1"><i class="fa fa-check"></i><b>3.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="3.1.2" data-path="application-to-statistical-genetics.html"><a href="application-to-statistical-genetics.html#specific-application"><i class="fa fa-check"></i><b>3.1.2</b> Specific Application</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Hidden Markov Models &amp; their Applications to Statistical Genetics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hidden-markov-models" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Hidden Markov Models</h1>
+<p>In this section, we’ll go through the theoretical definitions &amp; algorithms associated with Hidden Markov Models (<strong>HMM</strong>s) and finally get at proving the claim that they’re cooler than Markov Chains. Let’s begin with some applied motivation.</p>
+<div id="motivation" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Motivation</h2>
+<p>Previously, we wanted to study the weather. Let’s up the stakes and now look at how the weather can determine whether or not a cute frog-family survives the week in California.</p>
+<center>
+<img src="images/froggy.jpg" id="id" class="class" style="width:60.0%;height:60.0%" />
+</center>
+<p>If you were a frog, you wouldn’t be able to check the weather before leaving your tree hide– you wouldn’t even be able to read!– but you do know that if you left while it was</p>
+<ul>
+<li><strong>Sunny:</strong> you’d dry up in an instant &amp; die with 100% certainty.</li>
+<li><strong>Cloudy:</strong> you would have a 75% chance of living (and eating a nice bug) with a 25% chance of dying due to predators in the area</li>
+<li><strong>Rainy:</strong> you would have a 90% chance of living (and eating a nice bug) with a 10% chance of dying due to predators in the area</li>
+</ul>
+<p>Let’s say your frog-dad went out and came back (with a nice bug), but now you’re very curious about the weather outside and want to predict it somehow.</p>
+<p>Since we, as non-frog statisticians, know that the weather is a Markov Chain, we can say this frog-family has stumbled into a Hidden Markov Model. In the following section, we will establish what that implies theoretically for us &amp; our little frog family.</p>
+</div>
+<div id="definitions" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Definitions</h2>
+<p>Hidden Markov Models are another class of probabilistic models which model Markov processes whose outcomes (<span class="math inline">\(X_n\)</span>) cannot be directly observed, but their dependent observed events (<span class="math inline">\(Y_n\)</span>) can be. Often, we’re never particularly interested in the <span class="math inline">\(Y_n\)</span>, but we can use them to make good inferences in the <span class="math inline">\(X_n\)</span>.</p>
+<p>Intuitively, it’s like using the shadow of an animal, to guess what it is!</p>
+<center>
+<img src="images/frogshadow.png" id="id" class="class" style="width:60.0%;height:60.0%" />
+</center>
+<p>Neither <span class="math inline">\(X_n\)</span> or <span class="math inline">\(Y_n\)</span> <em>must</em> be a discrete event, but this project is explicitly dedicated to discrete-time Hidden Markov Models, so we will assume they all are.</p>
+<blockquote>
+<p><strong>Note:</strong> If you’re interested in continuous-time Markov Chains or <strong>HMM</strong>s check this textbook <a href="hdbfjjerjhvefdbjhdfbjhdbjhdfbjhf">out</a>!</p>
+</blockquote>
+<p>This implies some rules for the set of events, <span class="math inline">\(X_n\)</span> &amp; <span class="math inline">\(Y_n\)</span>:</p>
+<ul>
+<li><p><strong>Discreteness:</strong></p></li>
+<li><p>Both <span class="math inline">\(X_n\)</span> and <span class="math inline">\(Y_n\)</span> are sequential, discrete, random variables.</p></li>
+<li><p><strong>Markov Process:</strong></p></li>
+<li><p><span class="math inline">\(X_n\)</span> <em>must</em> be a Markov chain with known transition probabilities. So, <span class="math display">\[P(X_{n+1} = x_{n+1}|X_1 = x_1, \dots,  X_{n-1}= x_{n-1}, X_n= x_{n}) = P(X_{n+1} = x_{n+1}|X_n = x_n)\]</span></p></li>
+<li><p><strong>Hidden &amp; Observable Events:</strong></p></li>
+<li><p>The outcomes/states of the <span class="math inline">\(X_n\)</span> are unknown, but we do know their total <strong>State Space</strong>.</p></li>
+<li><p>We can observe the outcomes of the <span class="math inline">\(Y_n\)</span> and their total <strong>State Space</strong>.</p></li>
+<li><p><strong>Emission &amp; Transition Probabilities:</strong></p></li>
+<li><p>Outcome Probabilities: The outcome probabilities of a state at a certain point are solely dependent on hidden states at the same point. That is <span class="math inline">\(P(Y_{n}|Y_i, ..., Y_n, X_1, ..., X_n) = P(Y_{n}|X_n)\)</span></p></li>
+<li><p>Definition of <strong>Hidden Markov Model</strong>
+Definition of Hidden States</p>
+<ul>
+<li>Definition of Observation Likelihoods</li>
+<li>Visual Intuition with family data and <code>seqHMM</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="the-forward-backward-algorithm" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> The Forward-Backward Algorithm</h2>
+<ul>
+<li>The Forward-Backward Algorithm
+<ul>
+<li>Motivation: Given hidden states, find the likelihood of the observations</li>
+<li>Define connection between Bayes rule</li>
+<li>Define Joint Probability</li>
+<li>Walkthrough of Algorithm</li>
+</ul></li>
+</ul>
+</div>
+<div id="limitations" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Limitations</h2>
+<hr />
+<p><strong>References</strong></p>
+<p>Degirmenci, Alperen. 2014. “Introduction to Hidden Markov Models.” Harvard University. <a href="https://scholar.harvard.edu/files/adegirmenci/files/hmm_adegirmenci_2014.pdf" class="uri">https://scholar.harvard.edu/files/adegirmenci/files/hmm_adegirmenci_2014.pdf</a>.</p>
+<p>Eddy, Sean. 2004. “What Is a Hidden Markov Model?,” October, 1315–1316. <a href="https://www.nature.com/articles/nbt1004-1315#citeas" class="uri">https://www.nature.com/articles/nbt1004-1315#citeas</a>.</p>
+<p>Helske, Satu, and Jouni Helske. 2019. “Mixture Hidden Markov Models for Sequence Data: The SeqHMM Package in R” 88: 1–32. <a href="http://dx.doi.org/10.18637/jss.v088.i03" class="uri">http://dx.doi.org/10.18637/jss.v088.i03</a>.</p>
+<p>Jurafsky, Dan, and James Martin. 2020. “Hidden Markov Models.” In Speech and Language Processing, 3rd ed. <a href="https://web.stanford.edu/~jurafsky/slp3/A.pdf" class="uri">https://web.stanford.edu/~jurafsky/slp3/A.pdf</a>.</p>
+<p>Kang, Eugine. 2017. “Hidden Markov Model.” Medium. August 31, 2017. <a href="https://medium.com/@kangeugine/hidden-markov-model-7681c22f5b9" class="uri">https://medium.com/@kangeugine/hidden-markov-model-7681c22f5b9</a>.</p>
+<p><br />
+</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mathematical-intuition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="application-to-statistical-genetics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["455_Markov.pdf", "455_Markov.html"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

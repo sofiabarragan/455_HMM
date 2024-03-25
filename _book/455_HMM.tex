@@ -1,0 +1,296 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Hidden Markov Models \& their Applications to Statistical Genetics},
+  pdfauthor={Freddy Barragan, Spring 2021, Macalester College},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+
+\title{Hidden Markov Models \& their Applications to Statistical Genetics}
+\author{Freddy Barragan, Spring 2021, Macalester College}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{welcome}{%
+\chapter*{Welcome}\label{welcome}}
+\addcontentsline{toc}{chapter}{Welcome}
+
+This is bookdown on discrete Hidden Markov Models \& their applications to statistical genetics is my capstone! I made this for my Mathematical Statistics course taught by \href{\%22http://kegrinde.github.io\%22}{Kelsey Grinde}. Big thanks to her for her guidance and help.
+
+Content was written and gathered by \href{\%22https://freddybarragan.netlify.app\%22}{Freddy Barragan} with appropriate citations for referenced materials.
+
+\textbf{Note:}
+I assume no mathematical background, but you shouldn't need much! If any equations look scary, feel free to skip over to the written content :)
+
+\includegraphics{images/cc_license_button.png}
+
+This work is licensed under a \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.
+
+\hypertarget{mathematical-intuition}{%
+\chapter{Mathematical Intuition}\label{mathematical-intuition}}
+
+Markov Chains are cool! And Hidden Markov Models are even cooler! So, let's make sure you can get at the cool-stuff by starting off with the necessary basics. In this section, we'll review conditional probabilities \& set up the basis for Hidden Markov Models by getting comfortable with chains first.
+
+\hypertarget{conditional-probability-bayes-rule}{%
+\section{Conditional Probability \& Bayes Rule}\label{conditional-probability-bayes-rule}}
+
+Probability, as a field, formalizes how we predict events with some equally beautiful \& ugly notation, sharp concepts, and complex mathematical principles.
+But the premise is simple: by ascribing a numeric value to the outcomes of an event happening, we can abstract the real-world and study it with math. This process of ascribing numeric values to the outcome of an event is called a mapping \& by mapping all possible outcomes of an event we create a \emph{random variable}.
+
+\begin{quote}
+\textbf{NOTE:} This can be confusing! The ``random'' part of the word doesn't mean all outcomes have an equal chance of happening, really it means that within an event there are multiple possible outcomes.
+\end{quote}
+
+For example, let's say that the weather can either be sunny, rainy, or cloudy. We can then say that the weather is an event, \(W\), with the outcomes \(w_s,w_r,w_c\), respectively. However, by specifying the probabilities of each event we can turn \(W\) into a random variable:
+
+\[\begin{aligned} 
+p_{(W)}(w)  &= \begin{cases}
+    0.5, & \text{for } w_s \\
+    0.3, & \text{for } w_r \\
+    0.2, & \text{for } w_c \\
+    0.0, & \text{otherwise}
+\end{cases}
+\end{aligned}\]
+
+But what happens when the weather changes because of temperature, implying that weather is conditional on the outcome of temperature. Let's formalize
+
+\begin{itemize}
+\tightlist
+\item
+  Definition of Conditional Probability
+\item
+  Definition of Bayes rule
+\end{itemize}
+
+\hypertarget{markov-chains-the-markov-property}{%
+\section{Markov Chains \& The Markov Property}\label{markov-chains-the-markov-property}}
+
+\textbf{Markov Property}
+
+\textbf{Markov Chains}
+
+\begin{itemize}
+\tightlist
+\item
+  State Space
+\item
+  Transition Probabilities \& Matrices
+\end{itemize}
+
+\textbf{Visualizing a Markov Chain}
+- Will Hipson's \href{https://willhipson.netlify.app/post/markov-sim/markov_chain/}{Dot Visualization}
+
+\begin{itemize}
+\tightlist
+\item
+  embedding \href{https://setosa.io/markov/index.html\#\%7B\%22tm\%22\%3A\%5B\%5B0.5\%2C0.5\%5D\%2C\%5B0.5\%2C0.5\%5D\%5D\%7D}{Victor Powell's Website}.
+\end{itemize}
+
+\hypertarget{video-resources}{%
+\section{Video Resources}\label{video-resources}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{References}
+
+Hipson, Will. 2020. ``Visualizing A Markov Chain.'' Will Hipson's Personal Website. March 23, 2020. \url{https://willhipson.netlify.app/post/markov-sim/markov_chain/}.
+
+Johnson, Alicia, Miles Ott, and Mine Dogucu. 2020. ``Bayes' Rule.'' In Bayes Rules! An Introduction to Bayesian Modeling with R . \url{https://www.bayesrulesbook.com}.
+
+Kang, Eugine. 2017. ``Hidden Markov Model.'' Medium. August 31, 2017. \url{https://medium.com/@kangeugine/hidden-markov-model-7681c22f5b9}.
+
+Lay, David C. 2012. ``Applications to Markov Chains.'' In Linear Algebra and Its Applications, 4th ed., 253--62. Boston: Pearson College Division.
+
+Powell, Victor, and Lewis Lehe. 2014. ``Markov Chains Explained Visually.'' Explained Visually. November 7, 2014. \url{https://setosa.io/ev/markov-chains/}.
+
+\hypertarget{hidden-markov-models}{%
+\chapter{Hidden Markov Models}\label{hidden-markov-models}}
+
+Motivations for HIdd
+
+\hypertarget{hidden-markov-models-1}{%
+\section{Hidden Markov Models}\label{hidden-markov-models-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Definition of \textbf{Hidden Markov Model}
+  Definition of Hidden States
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Definition of Observation Likelihoods
+  \item
+    Visual Intuition with family data and \texttt{seqHMM}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{the-forward-backward-algorithm}{%
+\section{The Forward-Backward Algorithm}\label{the-forward-backward-algorithm}}
+
+\begin{itemize}
+\tightlist
+\item
+  The Forward-Backward Algorithm
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Motivation: Given hidden states, find the likelihood of the observations
+  \item
+    Define connection between Bayes rule
+  \item
+    Define Joint Probability
+  \item
+    Walkthrough of Algorithm
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{limitations}{%
+\section{Limitations}\label{limitations}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{References}
+
+Degirmenci, Alperen. 2014. ``Introduction to Hidden Markov Models.'' Harvard University. \url{https://scholar.harvard.edu/files/adegirmenci/files/hmm_adegirmenci_2014.pdf}.
+
+Eddy, Sean. 2004. ``What Is a Hidden Markov Model?,'' October, 1315--1316. \url{https://www.nature.com/articles/nbt1004-1315\#citeas}.
+
+Helske, Satu, and Jouni Helske. 2019. ``Mixture Hidden Markov Models for Sequence Data: The SeqHMM Package in R'' 88: 1--32. \url{http://dx.doi.org/10.18637/jss.v088.i03}.
+
+Jurafsky, Dan, and James Martin. 2020. ``Hidden Markov Models.'' In Speech and Language Processing, 3rd ed.~\url{https://web.stanford.edu/~jurafsky/slp3/A.pdf}.
+
+Kang, Eugine. 2017. ``Hidden Markov Model.'' Medium. August 31, 2017. \url{https://medium.com/@kangeugine/hidden-markov-model-7681c22f5b9}.
+
+\hfill\break
+
+\hypertarget{application-to-statistical-genetics}{%
+\chapter{Application to Statistical Genetics}\label{application-to-statistical-genetics}}
+
+\hypertarget{local-ancestry-inference}{%
+\section{Local Ancestry Inference}\label{local-ancestry-inference}}
+
+\hypertarget{motivation}{%
+\subsection{Motivation}\label{motivation}}
+
+Definition of Admixture
+Definition of Local Ancestry
+
+\hypertarget{specific-application}{%
+\subsection{Specific Application}\label{specific-application}}
+
+\begin{itemize}
+\tightlist
+\item
+  Definition of Smoother Analysis
+\item
+  HAPMIX
+\item
+  Toy Transition Matrix
+\item
+  Visualizing the Smoothing Process
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://customercare.23andme.com/hc/en-us/articles/115004339467-How-Ancestry-Composition-Works}{23andMe}
+  \item
+    Re-using the Hipson Visualization (?)
+  \item
+    Re-using
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{References}
+
+Eddy, Sean. 2004. ``What Is a Hidden Markov Model?,'' October, 1315--1316. \url{https://www.nature.com/articles/nbt1004-1315\#citeas}.
+
+Helske, Satu, and Jouni Helske. 2019. ``Mixture Hidden Markov Models for Sequence Data: The SeqHMM Package in R'' 88: 1--32. \url{http://dx.doi.org/10.18637/jss.v088.i03}.
+
+Price, Alkes L., Arti Tandon, Nick Patterson, Kathleen C. Barnes, Nicholas Rafaels, Ingo Ruczinski, Terri H. Beaty, Rasika Mathias, David Reich, and Simon Myers. 2009. ``Sensitive Detection of Chromosomal Segments of Distinct Ancestry in Admixed Populations.'' PLoS Genet 5 (6): e1000519. \url{https://doi.org/10.1371/journal.pgen.1000519}.
+
+\hfill\break
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}
